@@ -131,7 +131,7 @@ def segmentVoxel(imgLoc, model):
     img1 = nib.load(imgLoc)
     img1_new = nib.Nifti1Image(output_numpy, img1.affine, img1.header)
     name = imgLoc.replace('_flair', '').split('/')[-1]
-    out_dir = 'D:/3D-ESPNet-ouput/'
+    out_dir = './3D-ESPNet-ouput/'
     if not os.path.isdir(out_dir):
         os.mkdir(out_dir)
         print("hi")
@@ -139,7 +139,7 @@ def segmentVoxel(imgLoc, model):
     nib.save(img1_new, file_name)
     
 def op_img(img_file):
-    best_model_loc = 'espnet_3d_brats.pth'
+    best_model_loc = './pretrained/espnet_3d_brats.pth'
     if not os.path.isfile(best_model_loc):
         print('Pretrained weight file does not exist. Please check')
         exit(-1)
@@ -149,12 +149,11 @@ def op_img(img_file):
     #model = model.cuda()
     model.eval()
 
-    dice_scores_wt = []
-    dice_scores_cm = []
-    dice_scores_et = []
-
     for i in img_file:
         with open(i):
             segmentVoxel(i, model)
-
-
+img_file=['test/Brats18_2013_2_1_t2.nii.gz',
+'test/Brats18_2013_2_1_t1ce.nii.gz',
+'test/Brats18_2013_2_1_t1.nii.gz',
+'test/Brats18_2013_2_1_flair.nii.gz']
+op_img(img_file)
