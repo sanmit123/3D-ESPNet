@@ -17,6 +17,7 @@ import os
 
 def norm(im):
     '''
+    http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl
     Normalize the image using min-max normalization
     :param im: Input image
     :return: Min-max normalized image
