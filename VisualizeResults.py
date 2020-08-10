@@ -97,11 +97,11 @@ def segmentVoxel(imgLoc, model):
     # concat the tensors and then feed them to the model
     tensor_concat = torch.cat([tensor_flair, tensor_t1, inputB, tensor_t2], 0)  # inputB #
     tensor_concat = torch.unsqueeze(tensor_concat, 0)
-    tensor_concat = tensor_concat.cuda()
+    #tensor_concat = tensor_concat.cuda()
 
     #convert to variable.
     # If you are using PyTorch version > 0.3, then you don't need this
-    tensor_concat_var = torch.autograd.Variable(tensor_concat, volatile=True)
+    tensor_concat_var = torch.autograd.Variable(tensor_concat)
 
     # Average ensembling at multiple resolutions
     # We found by experiments that ensembling at original and 144x144x144 gives best results.
@@ -131,34 +131,24 @@ def segmentVoxel(imgLoc, model):
     img1 = nib.load(imgLoc)
     img1_new = nib.Nifti1Image(output_numpy, img1.affine, img1.header)
     name = imgLoc.replace('_flair', '').split('/')[-1]
-    out_dir = './predictions'
+    out_dir = './3D-ESPNet-ouput/'
     if not os.path.isdir(out_dir):
         os.mkdir(out_dir)
+        print("hi")
     file_name = out_dir + os.sep + name
     nib.save(img1_new, file_name)
-
-if __name__ == '__main__':
-    data_dir = './' # evaluate on original data and not the processed one
-    test_file = 'test.txt'
-    if not os.path.isfile(data_dir + os.sep + test_file):
-        print('Validation file not found')
-        exit(-1)
-
+    
+def op_img(img_file):
     best_model_loc = './pretrained/espnet_3d_brats.pth'
     if not os.path.isfile(best_model_loc):
         print('Pretrained weight file does not exist. Please check')
         exit(-1)
 
     model = Net.ESPNet(classes=4, channels=4)
-    model.load_state_dict(torch.load(best_model_loc))
-    model = model.cuda()
+    model.load_state_dict(torch.load(best_model_loc, map_location=torch.device('cpu')))
+    #model = model.cuda()
     model.eval()
 
-    dice_scores_wt = []
-    dice_scores_cm = []
-    dice_scores_et = []
-    with open(data_dir + test_file) as txtFile:
-        for line in txtFile:
-            line_arr = line.split(',')
-            img_file = ((data_dir).strip() + '/' + line_arr[0].strip()).strip()
-            segmentVoxel(img_file, model)
+    for i in img_file:
+        with open(i):
+            segmentVoxel(i, model)
