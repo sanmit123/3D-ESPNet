@@ -140,7 +140,7 @@ def segmentVoxel(imgLoc, model):
     nib.save(img1_new, file_name)
     
 def op_img(img_file):
-    best_model_loc = './new_brats.pth'
+    best_model_loc = './new_brats.p'
     if not os.path.isfile(best_model_loc):
         print('Pretrained weight file does not exist. Please check')
         exit(-1)
