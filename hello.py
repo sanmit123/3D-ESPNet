@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, Response
 import requests
-from werkzeug import secure_filename
+from Werkzeug import secure_filename
 from VisualizeResults import *
 import json
 # from chat import bott
