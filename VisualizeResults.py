@@ -138,7 +138,7 @@ def segmentVoxel(imgLoc, model):
     nib.save(img1_new, file_name)
 
 if __name__ == '__main__':
-    data_dir = '.test/' # evaluate on original data and not the processed one
+    data_dir = './test/' # evaluate on original data and not the processed one
     test_file = 'test.txt'
     if not os.path.isfile(data_dir + os.sep + test_file):
         print('Validation file not found')
