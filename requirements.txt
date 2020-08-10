@@ -17,7 +17,7 @@ urllib3==1.25.8
 Werkzeug==1.0.0
 http://download.pytorch.org/whl/cpu/torch-0.4.1-cp36-cp36m-linux_x86_64.whl
 nibabel==2.3.0
-opencv==3.0.0
+opencv==3.0
 pytorch==0.3.1
 skimage==0.13.1
 pickle
