@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, Response
 import requests
-from Werkzeug import secure_filename
 from VisualizeResults import *
 import json
 # from chat import bott
@@ -20,7 +19,7 @@ def hello():
 def upload_file():
    if request.method == 'POST':
       f = request.files['file']
-      f.save(secure_filename(f.filename))
+      f.save(f.filename)
       return 'file uploaded successfully'
 
 if __name__ == '__main__':
